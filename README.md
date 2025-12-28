@@ -8,7 +8,7 @@ general health guidance based on user-described symptoms.
 ---
 
 ## 🚀 Live Demo
-🔗 https://healora-ai-medical-assistant-xxxxx.streamlit.app
+🔗 https://healora-ai-medical-assistant-okyh3b4ffap4ypcvcdisxk.streamlit.app/
 
 ---
 

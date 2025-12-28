@@ -5,11 +5,6 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 import streamlit as st
-try:
-    import speech_recognition as sr
-    VOICE_ENABLED = True
-except ImportError:
-    VOICE_ENABLED = False
 
 from modules.chat_functions import get_ai_response
 from modules.pdf_export import export_chat_pdf
@@ -72,36 +67,12 @@ if st.sidebar.button("Calculate Calories"):
 # --------------------
 st.markdown("## 💬 Chat with Healora")
 
-# Clear Chat Button (UX Upgrade)
-col1, col2 = st.columns([1, 5])
-with col1:
-    if st.button("🗑️ Clear Chat"):
-        st.session_state.history = []
-        st.experimental_rerun()
+# Clear Chat Button
+if st.button("🗑️ Clear Chat"):
+    st.session_state.history = []
+    st.experimental_rerun()
 
-if VOICE_ENABLED:
-    use_voice = st.checkbox("🎤 Use Voice Input")
-else:
-    st.info("🎤 Voice input works only in local setup.")
-    use_voice = False
-
-user_input = ""
-
-if use_voice:
-    if st.button("Start Recording"):
-        try:
-            recognizer = sr.Recognizer()
-            with sr.Microphone() as source:
-                st.info("Listening...")
-                audio = recognizer.listen(source, timeout=5)
-
-            user_input = recognizer.recognize_google(audio)
-            st.success(f"You said: {user_input}")
-
-        except Exception:
-            st.error("⚠️ Could not access microphone or recognize speech.")
-else:
-    user_input = st.text_input("Type your symptoms or question:")
+user_input = st.text_input("Type your symptoms or question:")
 
 # --------------------
 # Process Chat
@@ -118,7 +89,7 @@ if user_input:
     )
 
 # --------------------
-# Display Chat (Readable UI)
+# Display Chat
 # --------------------
 for chat in st.session_state.history:
     if chat["role"] == "user":

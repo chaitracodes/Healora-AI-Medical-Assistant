@@ -5,7 +5,11 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 import streamlit as st
-import speech_recognition as sr
+try:
+    import speech_recognition as sr
+    VOICE_ENABLED = True
+except ImportError:
+    VOICE_ENABLED = False
 
 from modules.chat_functions import get_ai_response
 from modules.pdf_export import export_chat_pdf
@@ -75,7 +79,11 @@ with col1:
         st.session_state.history = []
         st.experimental_rerun()
 
-use_voice = st.checkbox("🎤 Use Voice Input")
+if VOICE_ENABLED:
+    use_voice = st.checkbox("🎤 Use Voice Input")
+else:
+    st.info("🎤 Voice input works only in local setup.")
+    use_voice = False
 
 user_input = ""
 
